@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ilseon.teamtudy.domain.BoardVO;
+import com.ilseon.teamtudy.domain.PagingVO;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ilseon.teamtudy.service.BoardService;
@@ -17,13 +19,27 @@ public class BoardController {
 	private BoardService service;
 	
 	@RequestMapping(value="/board")
-	public String getBoardList(Model model){
-		model.addAttribute("BoardList", service.getList());
+	public String getBoardList(Model model, @RequestParam String bno){
+		System.out.println("여기는 안와?");
+		System.out.println("test : " + bno);
+		PagingVO paging = new PagingVO();
+		paging.setPageNo(Integer.parseInt(bno));
+		paging.setPageSize(10);
+		paging.setStart((Integer.parseInt(bno) - 1) * paging.getPageSize() + 1);
+		paging.setEnd(Integer.parseInt(bno) * paging.getPageSize());
+		
+		System.out.println("start : " + paging.getStart());
+		System.out.println("end : " + paging.getEnd());
+		
+		model.addAttribute("BoardList", service.getList(paging));
+		paging.setTotalCount(service.searchCount(paging));
+		model.addAttribute("paging", paging);
 		return "board/board_list";
 	}
 	
 	@RequestMapping(value="/board/view")
 	public String getBoardOne(Model model, @RequestParam int boardNumber){
+		service.hit(boardNumber);
 		model.addAttribute("BoardVO", service.getOne(boardNumber));
 		return "board/board_view";
 	}
@@ -36,7 +52,7 @@ public class BoardController {
 	@RequestMapping(value="/board/write")
 	public String writeBoard(Model model, @ModelAttribute BoardVO vo){
 		service.write(vo);
-		return "redirect:/board";
+		return "redirect:/board?bno=1";
 	}
 	
 	@RequestMapping(value="/board/editview")
@@ -55,6 +71,6 @@ public class BoardController {
 	@RequestMapping(value="/board/delete")
 	public String deleteBoard(Model model, @RequestParam int boardNumber){
 		service.delete(boardNumber);
-		return "redirect:/board";
+		return "redirect:/board?bno=1";
 	}
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.ilseon.teamtudy.domain.BoardVO;
+import com.ilseon.teamtudy.domain.PagingVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -16,8 +17,8 @@ public class BoardDAOImpl implements BoardDAO{
     private static final String NAMESPACE = "com.ilseon.teamtudy.boardmapper";	
 	
 	@Override
-	public List<BoardVO> getList() {
-		return sqlSession.selectList(NAMESPACE + ".getList");
+	public List<BoardVO> getList(PagingVO paging) {
+		return sqlSession.selectList(NAMESPACE + ".getList", paging);
 	}
 
 	@Override
@@ -38,6 +39,16 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public void delete(int boardNumber) {
 		sqlSession.delete(NAMESPACE + ".delete", boardNumber);
+	}
+
+	@Override
+	public void hit(int boardNumber) {
+		sqlSession.update(NAMESPACE + ".hit", boardNumber);
+	}
+
+	@Override
+	public int searchCount(PagingVO paging) {
+		return sqlSession.selectOne(NAMESPACE + ".searchCount", paging);
 	}
 
 }

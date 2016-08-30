@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.ilseon.teamtudy.domain.BoardVO;
+import com.ilseon.teamtudy.domain.PagingVO;
 import com.ilseon.teamtudy.persistence.BoardDAO;
 
 @Service
@@ -15,8 +16,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO dao;
 	
 	@Override
-	public List<BoardVO> getList() {
-		return dao.getList();
+	public List<BoardVO> getList(PagingVO paging) {
+		return dao.getList(paging);
 	}
 
 	@Override
@@ -37,6 +38,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void delete(int boardNumber) {
 		dao.delete(boardNumber);
+	}
+
+	@Override
+	public void hit(int boardNumber) {
+		dao.hit(boardNumber);
+	}
+
+	@Override
+	public int searchCount(PagingVO paging) {
+		return dao.searchCount(paging);
 	}
 
 }

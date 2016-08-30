@@ -7,7 +7,7 @@
 	<select id="getList" resultType="BoardVO">
 		SELECT c.* 
 		FROM (SELECT @RNUM := @RNUM + 1 AS rnum, a.* FROM (SELECT * FROM board ORDER BY boardNumber DESC) a,  
-			 ( SELECT @RNUM := 0 ) b) c where c.rnum <![CDATA[>=]]> 0 and c.rnum <![CDATA[<=]]> 10
+			 ( SELECT @RNUM := 0 ) b) c where c.rnum <![CDATA[>=]]> #{start} and c.rnum <![CDATA[<=]]> #{end}
 	</select>
 	<select id="getOne" parameterType="int" resultType="BoardVO">
 		SELECT * FROM board WHERE boardNumber=#{boardNumber}
@@ -21,4 +21,10 @@
 	<delete id="delete">
 		DELETE FROM board WHERE boardNumber=#{boardNumber}
 	</delete>
+	<update id="hit" parameterType="int">
+		UPDATE board SET hit=hit+1 WHERE boardNumber=#{boardNumber}
+	</update>
+	<select id="searchCount" resultType="int">
+		SELECT count(*) FROM board
+	</select>
 </mapper>

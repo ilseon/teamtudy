@@ -22,5 +22,24 @@
 		</table>
 		<a href="/board/writeview" class="btn">글쓰기</a>
 	</div>
+	<!-- 페이징 -->
+	<div class="row">
+       <nav>
+      <ul class="pagination">
+          <li><a href="/board?bno=${paging.firstPageNo}" class="first">처음 페이지</a></li>
+         <li> <a href="/board?bno=${paging.prevPageNo}" class="prev">이전 페이지</a></li>
+          <li>
+              <c:forEach var="i" begin="${paging.startPageNo}" end="${paging.endPageNo}" step="1">
+                  <c:choose>
+                      <c:when test="${i eq paging.pageNo}"><a href="/board?bno=${i}" class="choice">${i}</a></c:when>
+                      <c:otherwise><a href="/board?bno=${i}">${i}</a></c:otherwise>
+                  </c:choose>
+              </c:forEach>
+          <li>
+         <li> <a href="/board?bno=${paging.nextPageNo}" class="next">다음 페이지</a></li>
+          <li><a href="/board?bno=${paging.finalPageNo}" class="last">마지막 페이지</a></li>
+      </ul>
+      </nav>
+   </div>
 </div>
 <%@include file="../include/footer.jsp"%>
