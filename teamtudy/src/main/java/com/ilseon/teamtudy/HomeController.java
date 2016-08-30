@@ -20,12 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	// test
-	@Inject
-	private SqlSession sqlSession;
-    private static final String NAMESPACE = "com.ilseon.teamtudy.boardmapper";	
-	// test
     
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -37,11 +31,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		
-		// test
-		System.out.println((int)sqlSession.selectOne(NAMESPACE + ".test"));
-		// test
-		
+			
 		return "home";
 	}
 	
