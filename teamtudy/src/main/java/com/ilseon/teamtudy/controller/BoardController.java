@@ -20,8 +20,6 @@ public class BoardController {
 	
 	@RequestMapping(value="/board")
 	public String getBoardList(Model model, @RequestParam String bno){
-		System.out.println("여기는 안와?");
-		System.out.println("test : " + bno);
 		PagingVO paging = new PagingVO();
 		paging.setPageNo(Integer.parseInt(bno));
 		paging.setPageSize(10);
